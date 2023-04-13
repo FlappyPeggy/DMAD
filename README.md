@@ -1,0 +1,103 @@
+**Code is still being collated and **UNAVAILABLE NOW**.*
+
+*The submission may also contain bugs or wrong version.*
+
+*Correction will not be finished until this message disappears.*
+
+# Diversity-Measurable Anomaly Detection
+This repo is the official code for "Diversity-Measurable Anomaly Detection", CVPR 2023 by Wenrui Liu, Hong Chang, Bingpeng Ma, Shiguang Shan, Xilin Chen.
+
+<img src="./DMAD.JPG" title="Logo" width="1000" /> 
+
+<div align="center">
+    <img src="./MNIST1.JPG" width="490" height="360"/><img src="./MNIST2.JPG" width="490" height="350"/>
+</div>
+
+## Requirements
+
+- Linux or Win
+- Python 3.6
+- PyTorch 1.9.0
+- TorchVision 0.10.0
+- Numpy 1.19.5
+- OpenCV 3.4.2
+- Scipy 1.5.4
+- PIL 8.1.0
+
+
+## Datasets
+If you need to download a dataset, these resources may be helpful:
+* USCD Ped2 [[Dataset](http://www.svcl.ucsd.edu/projects/anomaly/UCSD_Anomaly_Dataset.tar.gz)]
+* CUHK Avenue [[Dataset](http://www.cse.cuhk.edu.hk/leojia/projects/detectabnormal/Avenue_Dataset.zip)]
+* ShanghaiTech [[Dataset](https://github.com/StevenLiuWen/ano_pred_cvpr2018)]
+* MVTec AD [[Dataset](https://www.mvtec.com/company/research/datasets/mvtec-ad)]
+
+Then you need to move the downloaded datasets, like ``./dataset/ped2/'' for PDM and specify the corresponding path for PPDM.
+
+
+## Training & Testing
+### Pre-Processed Files
+The master branch does not contain pre-processing files (>25MB, e.g. background template for ShanghaiTech) and you need to download them at:
+[BaiduPan](https://pan.baidu.com/s/1n9ko5szFRjdYxHGbBK0TUw) (Password:dmad) or
+[GoogleDrive](https://drive.google.com/drive/folders/1PlRZmTFEQ7_CsrCLP9YI83rvWuAID5DF?usp=sharing)
+
+All files are located with the same path, you just need to download them to the **Corresponding Folder** and **Unzip** them.
+
+
+### Commands
+To train or test PDM version DMAD framework, just run:
+```bash
+cd DMAD-PDM
+python [[Train], [Evaluate]]_[[ped2], [avenue], [shanghai]].py
+<*optional> python process_avenue.py # to remove static anomalies, e.g. bag and a sitting person on the left side of the screen in dir_1 and dir_2
+```
+
+To train or test PPDM version DMAD framework, just run:
+```bash
+cd DMAD-PPDM
+python [[Train], [Evaluate]]_mvtec.py
+```
+
+### Pretrained Models
+We also provide four model checkpoints to reproduce the performance report in the papar at:
+[BaiduPan](https://pan.baidu.com/s/1n9ko5szFRjdYxHGbBK0TUw) (Password:dmad) or
+[GoogleDrive](https://drive.google.com/drive/folders/1PlRZmTFEQ7_CsrCLP9YI83rvWuAID5DF?usp=sharing)
+
+
+### Limitation & Improvement
+We mainly focuses on the diversity modeling and measurement framework, where geometrical diversity is just one of common pattern in
+anomaly detection. However, as for anomaly with other kind of diversities, e.g. colors,
+the specific measurement may not be positively correlated to anomaly severity.
+Besides, the training of PDM version may be unstable under certain parameters. 
+
+Our solution will be linked to this repo after relevant paper is accepted.
+
+
+## Acknowledgments
+The architecture for PPDM version is based on the implementation of 
+[RD](https://github.com/hq-deng/RD4AD).
+VQ-Layer and the architecture for toy experiment on MNIST is based on the implementation of 
+[VQ-VAE](https://github.com/AntixK/PyTorch-VAE).
+We also thank the authors of [MNAD](https://github.com/cvlab-yonsei/MNAD) 
+for the framework of loading data and models applied to surveillance videos.
+
+
+## Citation
+If you find this code useful, please consider citing our paper:
+```
+@article{liu2023dmad,
+  title   = {Diversity-Measurable Anomaly Detection}, 
+  author  = {Wenrui Liu and Hong Chang and Bingpeng Ma and Shiguang Shan and Xilin Chen},
+  journal = {arXiv preprint arXiv:2303.05047},
+  year    = {2023},
+}
+```
+or (if available)
+```
+@inproceedings{liu2023dmad,
+  title={Diversity-Measurable Anomaly Detection},
+  author={Wenrui Liu and Hong Chang and Bingpeng Ma and Shiguang Shan and Xilin Chen},
+  booktitle={2023 {IEEE/CVF} Conference on Computer Vision and Pattern Recognition},
+  year={2023}
+}
+```
