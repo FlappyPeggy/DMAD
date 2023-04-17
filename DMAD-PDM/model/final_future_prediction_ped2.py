@@ -110,16 +110,31 @@ class Smooth_Loss(nn.Module):
         super(Smooth_Loss, self).__init__()
         self.alpha = alpha
         self.ks = ks
-        filter = torch.FloatTensor([[-1 / (ks**2 - 1)] * ks]*ks).cuda()
-        filter[ks//2, ks // 2] = 1
-
-        self.filter = filter.view(1, 1, ks, ks).repeat(1, channels, 1, 1)
+        filter = torch.FloatTensor([[-1 / (ks - 1)] * ks]).cuda()
+        filter[0, ks // 2] = 1
+        self.filter_x = filter.view(1, 1, 1, ks).repeat(1, channels, 1, 1)
+        self.filter_y = filter.view(1, 1, ks, 1).repeat(1, channels, 1, 1)
 
     def forward(self, gen_frames):
-        gen_frames = nn.functional.pad(gen_frames, (self.ks // 2, self.ks // 2, self.ks // 2, self.ks // 2))
-        smooth = nn.functional.conv2d(gen_frames, self.filter).abs()
+        gen_frames_x = nn.functional.pad(gen_frames, (self.ks // 2, self.ks // 2, 0, 0))
+        gen_frames_y = nn.functional.pad(gen_frames, (0, 0, self.ks // 2, self.ks // 2))
+        gen_dx = nn.functional.conv2d(gen_frames_x, self.filter_x)
+        gen_dy = nn.functional.conv2d(gen_frames_y, self.filter_y)
+        smooth_xy = torch.abs(gen_dx) + torch.abs(gen_dy)
 
-        return (smooth ** self.alpha).mean()
+        return torch.mean(smooth_xy ** self.alpha)
+
+    #     filter = torch.FloatTensor([[-1 / (ks**2 - 1)] * ks]*ks).cuda()
+    #     filter[ks//2, ks // 2] = 1
+    #
+    #     self.filter = filter.view(1, 1, ks, ks).repeat(1, channels, 1, 1)
+    #
+    # def forward(self, gen_frames):
+    #     gen_frames = nn.functional.pad(gen_frames, (self.ks // 2, self.ks // 2, self.ks // 2, self.ks // 2))
+    #     smooth = nn.functional.conv2d(gen_frames, self.filter).abs()
+    #
+    #     return (smooth ** self.alpha).mean()
+    
 
 class Test_Loss(nn.Module):
     def __init__(self, channels=1, ks=(16, 8), alpha=1):
