@@ -1,4 +1,4 @@
-**Code is still being collated and **UNAVAILABLE NOW**.*
+**Code is still being collated now.*
 
 *The submission may also contain bugs or wrong version.*
 
