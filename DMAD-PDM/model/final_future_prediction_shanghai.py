@@ -428,9 +428,6 @@ class convAE(torch.nn.Module):
 
     def loss_function(self, x, idx, recon_x, z_q_, z_q, z_e, commit_loss, vq_loss, offset1=None, offset2=None, mask=None, mask1=None, mask2=None, compute_err=False):
         weit = 1+100*torch.abs(F.avg_pool2d((x-self.bkg[idx].detach()).abs()**0.5, kernel_size=15,stride=1, padding=7))    
-        self.mask_loss = -(mask*torch.log(mask+1e-8)).mean() + F.relu(mask.mean()-0.01)*0.1
-        self.mask_loss = self.mask_loss * 0.1
-
         self.vq_loss = vq_loss
         self.commit_loss = commit_loss
 
@@ -449,6 +446,9 @@ class convAE(torch.nn.Module):
             self.offset_loss1 = (((offset1 ** 2).sum(dim=-1) ** 0.5)*weit[:,0]).sum()/weit[:,0].sum()
             self.offset_loss2 = (((offset2 ** 2).sum(dim=-1) ** 0.5)*weit[:,0]).sum()/weit[:,0].sum()
             self.smooth_loss = self.beta[2] * (self.loss_smooth1(offset1.permute(0, 3, 1, 2), weit) + self.loss_smooth2(offset2.permute(0, 3, 1, 2), weit))
+            
+            self.mask_loss = -(mask*torch.log(mask+1e-8)).mean() + F.relu(mask.mean()-0.01)*0.1
+            self.mask_loss = self.mask_loss * 0.1 + ((1 - mask2.detach())*F.mse_loss(self.bkg[idx],x, reduction='none')).sum() / (1 - mask2.detach()).sum()
 
 
             return  self.mse1+self.mse2+self.grad_loss + \
