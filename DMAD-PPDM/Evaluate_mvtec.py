@@ -9,6 +9,8 @@ from dataset import MVTecDataset
 from test import evaluation
 from torch.nn import functional as F
 
+ifgeom = ['screw', 'carpet', 'metal_nut'] # include geometrical changes AND discrimination of feature similarity is weak
+
 def setup_seed(seed):
     torch.manual_seed(seed)
     torch.cuda.manual_seed_all(seed)
@@ -47,17 +49,17 @@ def loss_concat(a, b):
 def eval(_class_, rec, root, ckpt_path, ifgeom):
     print(_class_)
     image_size = 256
-    vq = True
-    ifeval = True
+    mode = "sp" # or "px"
     pathI = 'wres50_' + _class_ + '_I.pth'
-#     pathP = 'wres50_' + _class_ + '_P.pth' 
+    pathP = 'wres50_' + _class_ + '_P.pth' 
         
-    device = 'cuda'
+    device = 'cuda' if torch.cuda.is_available() else 'cpu'
+    vq = mode == "sp"
 
     data_transform, gt_transform = get_data_transforms(image_size, image_size)
     test_path = root + _class_
     
-#     ckp_path_px = ckpt_path + pathP
+    ckp_path_px = ckpt_path + pathP
     ckp_path_sp = ckpt_path + pathI
     test_data = MVTecDataset(root=test_path, transform=data_transform, gt_transform=gt_transform, phase="test")
     test_dataloader = torch.utils.data.DataLoader(test_data, batch_size=1, shuffle=False)
@@ -71,26 +73,20 @@ def eval(_class_, rec, root, ckpt_path, ifgeom):
     encoder.eval()
     
     print("evaluating")
-    ckp = torch.load(ckp_path_sp)
+    ckp = torch.load(ckp_path_sp if mode=="sp" else ckp_path_px)
     decoder.load_state_dict(ckp['decoder'], strict=False)
     bn.load_state_dict(ckp['bn'], strict=False)
     offset.load_state_dict(ckp['offset'], strict=False)
-    _, auroc_sp = evaluation(offset, encoder, bn, decoder, test_dataloader, device, step=1, mode="sp", ifgeom=ifgeom)
+    auroc_px, auroc_sp = evaluation(offset, encoder, bn, decoder, test_dataloader, device, step=1, mode=mode, ifgeom=ifgeom)
 
-    return auroc_sp
+    return auroc_sp if mode=="sp" else auroc_px
 
 
 if __name__ == '__main__':
     root_path = "your dataset root path"
     ckpt_path = "your ckpt path"
-    ifgeom = ['screw', 'carpet', 'metal_nut'] # include geometrical changes AND discrimination of feature similarity is weak
-    others = ['capsule', 'cable', 'pill', 'bottle', 'hazelnut', 'leather', 'grid', 'transistor', 'toothbrush', 'zipper', 'tile', 'wood']
+    item_list = ['capsule', 'cable','screw','pill','carpet', 'bottle', 'hazelnut','leather', 'grid','transistor', 'metal_nut', 'toothbrush', 'zipper', 'tile', 'wood']
     rec = []
-    for i in ifgeom:
-        best_sp = eval(i, rec, root_path, ckpt_path, ifgeom=True)
-        rec.append(best_sp)
-        print(rec)
-    for i in others:
-        best_sp = eval(i, rec, root_path, ckpt_path, ifgeom=False)
-        rec.append(best_sp)
-        print(rec)
+    for i in item_list:
+        rec.append(eval(i, rec, root_path, ckpt_path, ifgeom=i in ifgeom))
+    print(rec)
