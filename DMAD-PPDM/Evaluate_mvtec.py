@@ -49,9 +49,8 @@ def loss_concat(a, b):
 def eval(_class_, rec, root, ckpt_path, ifgeom):
     print(_class_)
     image_size = 256
-    mode = "sp" # or "px"
-    pathI = 'wres50_' + _class_ + '_I.pth'
-    pathP = 'wres50_' + _class_ + '_P.pth' 
+    mode = "sp"
+    path = 'wres50_' + _class_ + ('_I.pth' if mode=="sp" else '_P.pth')
         
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
     vq = mode == "sp"
@@ -59,8 +58,7 @@ def eval(_class_, rec, root, ckpt_path, ifgeom):
     data_transform, gt_transform = get_data_transforms(image_size, image_size)
     test_path = root + _class_
     
-    ckp_path_px = ckpt_path + pathP
-    ckp_path_sp = ckpt_path + pathI
+    ckp_path = ckpt_path + path
     test_data = MVTecDataset(root=test_path, transform=data_transform, gt_transform=gt_transform, phase="test")
     test_dataloader = torch.utils.data.DataLoader(test_data, batch_size=1, shuffle=False)
 
@@ -73,7 +71,7 @@ def eval(_class_, rec, root, ckpt_path, ifgeom):
     encoder.eval()
     
     print("evaluating")
-    ckp = torch.load(ckp_path_sp if mode=="sp" else ckp_path_px)
+    ckp = torch.load(ckp_path)
     decoder.load_state_dict(ckp['decoder'], strict=False)
     bn.load_state_dict(ckp['bn'], strict=False)
     offset.load_state_dict(ckp['offset'], strict=False)
