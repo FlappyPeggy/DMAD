@@ -85,19 +85,12 @@ for the framework of loading data and models applied to surveillance videos.
 ## Citation
 If you find this code useful, please consider citing our paper:
 ```
-@article{liu2023dmad,
-  title   = {Diversity-Measurable Anomaly Detection}, 
-  author  = {Wenrui Liu and Hong Chang and Bingpeng Ma and Shiguang Shan and Xilin Chen},
-  journal = {arXiv preprint arXiv:2303.05047},
-  year    = {2023},
-}
-```
-or (if available)
-```
 @inproceedings{liu2023dmad,
   title={Diversity-Measurable Anomaly Detection},
   author={Wenrui Liu and Hong Chang and Bingpeng Ma and Shiguang Shan and Xilin Chen},
-  booktitle={2023 {IEEE/CVF} Conference on Computer Vision and Pattern Recognition},
-  year={2023}
+  booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+  month={June},
+  year={2023},
+  pages={12147-12156}
 }
 ```
