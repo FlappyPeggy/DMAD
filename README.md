@@ -1,9 +1,3 @@
-**Code is still being collated now.*
-
-*The submission may also contain bugs or wrong version.*
-
-*Correction will not be finished until this message disappears.*
-
 # Diversity-Measurable Anomaly Detection
 This repo is the official code for "Diversity-Measurable Anomaly Detection", CVPR 2023 by Wenrui Liu, Hong Chang, Bingpeng Ma, Shiguang Shan, Xilin Chen.
 
