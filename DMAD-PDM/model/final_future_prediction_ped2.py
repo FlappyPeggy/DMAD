@@ -453,10 +453,10 @@ class convAE(torch.nn.Module):
         else:
             self.mse2 = F.mse_loss(recon_x, x)
             self.mse1 = F.mse_loss(z_q_, x)
-            self.grad_loss = self.beta[0]*(self.loss_grad(x, recon_x).mean() + self.loss_grad(x, z_q_).mean())
+            self.grad_loss = self.beta[0]*(self.loss_grad(x, recon_x).mean() + self.loss_grad(x, z_q_).mean()*0.25)
 
-            self.offset_loss1 = ((offset1 ** 2).sum(dim=-1) ** 0.5).mean()
-            self.offset_loss2 = ((offset2 ** 2).sum(dim=-1) ** 0.5).mean()
+            self.offset_loss1 = ((offset1 ** 2).sum(dim=-1) ** 0.5).mean()*0.4
+            self.offset_loss2 = ((offset2 ** 2).sum(dim=-1) ** 0.5).mean()*0.4
             self.smooth_loss = self.beta[2]*(self.loss_smooth1(offset1.permute(0, 3, 1, 2)) + self.loss_smooth2(offset2.permute(0, 3, 1, 2)))
 
             return self.mse1 + self.mse2 + self.grad_loss + \
