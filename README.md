@@ -1,7 +1,9 @@
 # Diversity-Measurable Anomaly Detection
 This repo is the official code for "Diversity-Measurable Anomaly Detection", CVPR 2023 by Wenrui Liu, Hong Chang, Bingpeng Ma, Shiguang Shan, Xilin Chen.
 
-<img src="./DMAD.JPG" title="Logo" width="800" /> 
+<div align="center">
+    <img src="./DMAD.JPG" title="Logo" width="800" /> 
+</div>
 
 <div align="center">
     <img src="./MNIST1.JPG" width="400" height="290"/><img src="./MNIST2.JPG" width="400" height="290"/>
