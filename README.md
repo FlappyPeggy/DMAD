@@ -63,10 +63,10 @@ We also provide four model checkpoints to reproduce the performance report in th
 ### Limitation & Improvement
 We mainly focuses on the diversity modeling and measurement framework, where geometrical diversity is just one of common pattern in
 anomaly detection. However, as for anomaly with other kind of diversities, e.g. colors,
-the specific measurement may not be positively correlated to anomaly severity.
+the **geometric-specific diversity** measurement may not be positively correlated to anomaly severity.
 Besides, the training of PDM version may be unstable under certain parameters. 
 
-Our solution will be linked to this repo after relevant paper is accepted.
+Our solution about **stable diversity-agnostic** modeling approach will be linked to this repo after relevant paper is accepted.
 
 
 ## Acknowledgments
