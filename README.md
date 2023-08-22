@@ -31,6 +31,15 @@ If you need to download a dataset, these resources may be helpful:
 Then you need to move the downloaded datasets, like ``./dataset/ped2/'' for PDM and specify the corresponding path for PPDM.
 
 
+## Toy Experiment
+Download VQ-CVAE-based DMAD-PDM from [GoogleDrive](https://drive.google.com/file/d/1llmszdgp7VvKre-SQDw5GJN3TKs4-IJK/view?usp=sharing) or design your custom dataset with code in DMAD-Toy
+Then chech the arguments parser and run:
+```bash
+cd DMAD-Toy
+python main.py
+```
+
+
 ## Training & Testing
 ### Pre-Processed Files
 The master branch does not contain pre-processing files (>25MB, e.g. background template for ShanghaiTech) and you need to download them at:
