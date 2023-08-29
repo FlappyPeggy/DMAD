@@ -117,12 +117,12 @@ def train(_class_, root='./mvtec/', ckpt_path='./ckpt/', ifgeom=None):
                 loss_rec["vq"].append(0)
         print('epoch [{}/{}], main_loss:{:.4f}, offset_loss:{:.4f}, vq_loss:{:.4f}'.format(epoch + 1, epochs, np.mean(loss_rec["main"]), np.mean(loss_rec["offset"]), np.mean(loss_rec["vq"])))
         if (epoch + 1) % 10 == 0:
-            auroc_px, auroc_sp = evaluation(offset, encoder, bn, decoder, test_dataloader, device, _class_, mode, ifgeom)
+            auroc = evaluation(offset, encoder, bn, decoder, test_dataloader, device, _class_, mode, ifgeom)
             torch.save({
                 'offset': offset.state_dict(),
                 'bn': bn.state_dict(),
                 'decoder': decoder.state_dict()}, ckp_path)
-            print('Auroc:{:.3f}'.format(auroc_sp if mode=="sp" else auroc_px))
+            print('Auroc:{:.3f}'.format(auroc))
         # you can break the loop after 200 epoch
         # if epoch == 199: break
 
