@@ -1,5 +1,6 @@
 # Diversity-Measurable Anomaly Detection
-This repo is the official code for "Diversity-Measurable Anomaly Detection", CVPR 2023 by Wenrui Liu, Hong Chang, Bingpeng Ma, Shiguang Shan, Xilin Chen.
+- This repo is the **official code** for "Diversity-Measurable Anomaly Detection", CVPR 2023 by Wenrui Liu, Hong Chang, Bingpeng Ma, Shiguang Shan, Xilin Chen.
+- Also check the following link [DMSSD](https://openreview.net/forum?id=1IIiQnLRe8) for the **imporvement** of DMAD and utilizing diversity-measurable representation for **OoD detection**! 
 
 <div align="center">
     <img src="./DMAD.JPG" title="Logo" width="800" /> 
@@ -75,7 +76,7 @@ anomaly detection. However, as for anomaly with other kind of diversities, e.g. 
 the **geometric-specific diversity** measurement may not be positively correlated to anomaly severity.
 Besides, the training of PDM version may be unstable under certain parameters. 
 
-Our solution about **stable diversity-agnostic** modeling approach will be linked to this repo after relevant paper is accepted. (delayed again QAQ)
+Our solution about **stable diversity-agnostic** modeling approach will be linked to this repo after relevant paper is accepted.
 
 
 ## Acknowledgments
