@@ -155,6 +155,6 @@ if __name__ == '__main__':
                 recoder_param = [alpha, 1 - alpha]
     else:
         recoder_param = [0.2, 0.4, 0.6]
-        auc = roc_auc_score(y_true=m_, y_score=conf_avg(recoder_param[0] * list1 + recoder_param[1]*list2)) * 100
+        best = roc_auc_score(y_true=m_, y_score=conf_avg(recoder_param[0] * list1 + recoder_param[1]*list2)) * 100
 
     print("Avenue res: ", best, recoder_param)
